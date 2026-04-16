@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Distributed Tic Tac Toe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div class="page-shell">
+    <section class="hero">
+        <p class="eyebrow">Spring Boot Microservices</p>
+        <h1>Distributed Tic Tac Toe</h1>
+        <p class="lead">
+            The UI coordinates with the session service, which automates players X and O while the game engine validates every move.
+        </p>
+        <div class="hero-actions">
+            <button id="start-button" class="primary-button" type="button">Start Simulation</button>
+            <div class="endpoint-chip">
+                <span>UI</span>
+                <strong>localhost:8080</strong>
+            </div>
+            <div class="endpoint-chip">
+                <span>Session Service</span>
+                <strong>localhost:8082</strong>
+            </div>
+            <div class="endpoint-chip">
+                <span>Engine Service</span>
+                <strong>localhost:8081</strong>
+            </div>
+        </div>
+    </section>
+
+    <section class="dashboard">
+        <div class="board-panel panel">
+            <div class="panel-header">
+                <div>
+                    <p class="panel-label">Board</p>
+                    <h2>Live Replay</h2>
+                </div>
+                <div id="replay-badge" class="status-badge idle">Idle</div>
+            </div>
+
+            <div id="board" class="board" aria-label="Tic Tac Toe board">
+                <div class="cell" data-index="0"></div>
+                <div class="cell" data-index="1"></div>
+                <div class="cell" data-index="2"></div>
+                <div class="cell" data-index="3"></div>
+                <div class="cell" data-index="4"></div>
+                <div class="cell" data-index="5"></div>
+                <div class="cell" data-index="6"></div>
+                <div class="cell" data-index="7"></div>
+                <div class="cell" data-index="8"></div>
+            </div>
+
+            <div class="status-grid">
+                <article class="stat-card">
+                    <span class="stat-label">Session</span>
+                    <strong id="session-id">Not started</strong>
+                </article>
+                <article class="stat-card">
+                    <span class="stat-label">Game Status</span>
+                    <strong id="game-status">Waiting</strong>
+                </article>
+                <article class="stat-card">
+                    <span class="stat-label">Winner</span>
+                    <strong id="winner">TBD</strong>
+                </article>
+                <article class="stat-card">
+                    <span class="stat-label">Moves</span>
+                    <strong id="move-count">0</strong>
+                </article>
+            </div>
+        </div>
+
+        <div class="timeline-panel panel">
+            <div class="panel-header">
+                <div>
+                    <p class="panel-label">Timeline</p>
+                    <h2>Move History</h2>
+                </div>
+                <p id="timeline-summary" class="summary-text">Press the button to create a session and replay a full automated game.</p>
+            </div>
+
+            <ol id="move-history" class="history-list"></ol>
+        </div>
+    </section>
+
+    <section class="notes panel">
+        <div class="panel-header">
+            <div>
+                <p class="panel-label">Interaction</p>
+                <h2>How It Works</h2>
+            </div>
+        </div>
+        <div class="notes-grid">
+            <article>
+                <h3>1. UI Starts A Session</h3>
+                <p>The button calls the UI backend, which creates a new game session through the session service.</p>
+            </article>
+            <article>
+                <h3>2. Session Service Simulates</h3>
+                <p>The session service generates alternating X and O moves and sends them to the game engine over REST.</p>
+            </article>
+            <article>
+                <h3>3. Engine Validates</h3>
+                <p>The game engine validates moves, updates board state, and reports whether the game is still running, won, or drawn.</p>
+            </article>
+        </div>
+    </section>
+</div>
+
+<template id="history-item-template">
+    <li class="history-item">
+        <div class="history-marker"></div>
+        <div class="history-body">
+            <strong class="history-title"></strong>
+            <p class="history-meta"></p>
+        </div>
+    </li>
+</template>
+
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>
